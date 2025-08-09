@@ -40,9 +40,11 @@ public class SearchTest {
 
         driver.get("https://www.amazon.in");
         Thread.sleep(4000);
+        // hover
         WebElement e = driver.findElement(By.xpath("//div[@id='nav-link-accountList']"));
         Actions a = new Actions(driver);
         a.moveToElement(e).perform();
+
         Thread.sleep(4000);
         driver.findElement(By.xpath("//span[text()='Sign in']")).click();
         Thread.sleep(4000);
@@ -54,7 +56,7 @@ public class SearchTest {
         Thread.sleep(4000);
         List<WebElement> items = driver.findElements(By.xpath("//img[@class='s-image']"));
         // "//button[text()='login']
-        items.getFirst().click();
+        items.get(0).click();
         Thread.sleep(4000);
         driver.findElement(By.id("landingImage")).click();
     }
@@ -69,7 +71,7 @@ public class SearchTest {
 
         try {
             Thread.sleep(2000);
-            st.agniTest();
+            st.amazonTest();
         }catch (Exception e) {
             e.printStackTrace();
         }

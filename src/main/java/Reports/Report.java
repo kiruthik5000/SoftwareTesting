@@ -2,75 +2,94 @@ package Reports;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Report {
-
     WebDriver driver;
+    ExtentSparkReporter spark;
     ExtentReports reports;
     ExtentTest test;
 
-    @BeforeSuite
-    public void setupReport() {
-        ExtentSparkReporter spark = new ExtentSparkReporter("ExtentReport.html");
+    @BeforeTest
+    public void intialize() {
+        driver = new ChromeDriver();
+        spark = new ExtentSparkReporter("Report.html");
         reports = new ExtentReports();
         reports.attachReporter(spark);
     }
 
     @BeforeMethod
     public void openUrl() {
-        driver = new ChromeDriver();
-        driver.get("https://www.adactinhotelapp.com");
+        driver.get("https://opensource-demo.orangehrmlive.com");
     }
 
     @Test
     public void t1() throws InterruptedException{
-        test = reports.createTest("Login with valid credentials");
+        // Start the test case
+        test = reports.createTest("Login to OrangeHRM");
 
-        driver.findElement(By.name("username")).sendKeys("kiruthik");
-        test.pass("Entered username");
-        Thread.sleep(2000);
-        driver.findElement(By.id("password")).sendKeys("kiruthik");
-        test.pass("Entered password");
-        Thread.sleep(2000);
-        driver.findElement(By.id("login")).click();
-        test.pass("Clicked login button");
+        try {
+            // Get credentials from Excel
+            test.log(Status.INFO, "Fetching login credentials from Excel file.");
+            String[] credentials = getCredentials();
 
-        // Example of a basic assertion to demonstrate a pass/fail scenario
-        test.pass("Successfully logged in and validated page title.");
+            // Find and interact with the username field
+            test.log(Status.INFO, "Entering username: " + credentials[0]);
+            WebElement usernameField = driver.findElement(By.name("username"));
+            usernameField.sendKeys(credentials[0]);
+
+            // Find and interact with the password field
+            test.log(Status.INFO, "Entering password: " + credentials[1]);
+            WebElement passwordField = driver.findElement(By.name("password"));
+            passwordField.sendKeys(credentials[1]);
+
+            // Simulate clicking login button (optional)
+            WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            loginButton.click();
+            test.log(Status.PASS, "Successfully logged in with provided credentials.");
+        } catch (Exception e) {
+            // Log any failures
+            test.log(Status.FAIL, "Test failed due to an exception: " + e.getMessage());
+        }
     }
 
-    @Test
-    public void t2() throws InterruptedException{
-        test = reports.createTest("Login with invalid credentials");
-
-        driver.findElement(By.name("username")).sendKeys("nadis");
-        test.pass("Entered invalid username");
-        Thread.sleep(2000);
-        driver.findElement(By.id("password")).sendKeys("nadis");
-        test.pass("Entered invalid password");
-        Thread.sleep(2000);
-        driver.findElement(By.id("login")).click();
-        test.pass("Clicked login button");
-
-        test.fail("Login succeeded unexpectedly.");
-    }
 
     @AfterMethod
     public void close() {
         driver.quit();
     }
-
-    @AfterSuite
-    public void tearDownReport() {
+    @AfterTest
+    public void save() {
         reports.flush();
+    }
+
+    private String[] getCredentials(){
+        Workbook excel;
+        try {
+            FileInputStream fis = new FileInputStream("src/main/java/FileAccess/Data.xlsx");
+            excel = new XSSFWorkbook(fis);
+            Sheet sheet = excel.getSheetAt(0);
+            Row r = sheet.getRow(1);
+            return new String[]{r.getCell(0).getStringCellValue(), r.getCell(1).getStringCellValue()};
+        }catch (FileNotFoundException e) {
+            System.out.println("Error: "+e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

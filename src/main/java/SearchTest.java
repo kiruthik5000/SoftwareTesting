@@ -60,9 +60,6 @@ public class SearchTest {
         Thread.sleep(4000);
         driver.findElement(By.id("landingImage")).click();
     }
-    public void agniTest() {
-
-    }
 
     public static void main(String[] args) throws InterruptedException{
         System.setProperty("webdriver.chrome.driver", "C:/Drivers/chromedriver-win64/chromedriver.exe");

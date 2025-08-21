@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -82,6 +83,15 @@ public class DataAcces {
         for(Map.Entry<String, String> entry : credentials.entrySet()) {
             sendValues(entry.getKey(), entry.getValue());
         }
+    }
+
+    @Test
+    public void assertCheck() {
+        String expected = "Enter OTP recived on your Email/Mobile";
+
+        String actual = driver.findElement(By.xpath("//label")).getText();
+
+        Assert.assertEquals(actual, expected, "Mismatched");
     }
 
     @AfterMethod

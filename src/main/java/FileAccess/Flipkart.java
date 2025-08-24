@@ -58,27 +58,25 @@ public class Flipkart {
 
             Sheet sheet = wb.getSheetAt(0);
 
+
             int rows = sheet.getLastRowNum();
 
+
             List<String> names = new ArrayList<>();
-            for(int i=1; i<=rows; i++) {
-                Row row = sheet.getRow(i);
-                if(row != null) {
-                    Cell cell = row.getCell(0);
-                    if(cell != null) {
-                        if (cell.getCellType() == CellType.STRING) {
-                            names.add(cell.getStringCellValue());
-                        } else if (cell.getCellType() == CellType.NUMERIC) {
-                            // Handle numeric data if needed, e.g., convert to string
-                            names.add(String.valueOf(cell.getNumericCellValue()));
-                        }
-                    }
-                }
+            for(int i=0; i<=rows; i++) {
+                Row r = sheet.getRow(i);
+                Cell c = r.getCell(0);
+                String val = c.getStringCellValue();
+                names.add(val);
             }
-            return names;
+            System.out.println(names);
         }catch(Exception e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    public static void main(String[] args) {
+        new Flipkart().getInputs();
     }
 }

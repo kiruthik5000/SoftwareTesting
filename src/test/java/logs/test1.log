@@ -1,0 +1,6 @@
+2025-08-21 10:05:35 INFO Log4j.LogTest Log4j.LogTest setup -> Launching Chrome browser...
+2025-08-21 10:05:47 INFO Log4j.LogTest Log4j.LogTest setup -> Opened Adactin Hotel App
+2025-08-21 10:05:47 INFO Log4j.LogTest Log4j.LogTest simpleTest -> Proceeding with username: admin and password: admin@123
+2025-08-21 10:05:48 INFO Log4j.LogTest Log4j.LogTest simpleTest -> Entered the username and password
+2025-08-21 10:05:48 INFO Log4j.LogTest Log4j.LogTest simpleTest -> Test completed
+2025-08-21 10:05:48 INFO Log4j.LogTest Log4j.LogTest exit -> Closing the browser...

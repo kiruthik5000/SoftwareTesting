@@ -9,7 +9,6 @@ public class JDBC {
 
     JDBC() {
         try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, pass);
             smt = conn.createStatement();
         } catch (Exception e) {

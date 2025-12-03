@@ -3,10 +3,8 @@ package Hybrid;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -35,7 +33,7 @@ public class h1 {
     ExtentTest test;
 
     // log4j
-    private static final Logger log = LogManager.getLogger(h1.class);
+    private static final Logger log = Logger.getLogger(h1.class);
 
     @BeforeTest
     public void report() {
@@ -59,16 +57,15 @@ public class h1 {
     // screenshot
     public void getScreenshot() {
         try {
-            TakesScreenshot ts = (TakesScreenshot) driver;
-            File srcDir = new File("./screenshot");
-            if(!srcDir.exists()) {
-                srcDir.mkdir();
-            }
-            File dest = new File(srcDir, "image.png");
-            File screenshot = ts.getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(srcDir, dest);
-            Files.copy(screenshot, dest);
-        }catch (Exception e) {
+            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+            File folder = new File("./screenshot");
+            folder.mkdir(); // creates only if not exists
+
+            File dest = new File(folder, "image.png");
+            FileUtils.copyFile(src, dest);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -91,6 +88,12 @@ public class h1 {
             e.printStackTrace();
         }
     }
+
+    // alert
+    Alert alert = driver.switchTo().alert();
+    alert.accept();
+    alert.dismiss();
+    alert.sendKeys();
 
     // javascriptscroll
     public void scroll(WebElement element) {

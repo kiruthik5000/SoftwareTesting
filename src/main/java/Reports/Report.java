@@ -9,11 +9,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -60,6 +60,12 @@ public class Report {
             // Simulate clicking login button (optional)
             WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
             loginButton.click();
+            try {
+                TakesScreenshot ts = (TakesScreenshot) driver;
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            test.addScreenCaptureFromPath("./screenshots/image.png");
             test.log(Status.PASS, "Successfully logged in with provided credentials.");
         } catch (Exception e) {
             // Log any failures

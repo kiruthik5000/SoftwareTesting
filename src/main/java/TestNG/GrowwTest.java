@@ -4,6 +4,7 @@
     import org.openqa.selenium.WebDriver;
     import org.openqa.selenium.WebElement;
     import org.openqa.selenium.chrome.ChromeDriver;
+    import org.openqa.selenium.support.ui.Select;
     import org.testng.annotations.AfterTest;
     import org.testng.annotations.BeforeTest;
     import org.testng.annotations.Test;
@@ -51,6 +52,15 @@
             int i = 0;
             for(WebElement we : elements) {
                 System.out.println(we.getText());
+            }
+        }
+        public void select(WebElement e, String text) {
+            try {
+                Select select = new Select(e);
+                select.selectByVisibleText(text);
+
+            }catch (Exception g) {
+                g.printStackTrace();
             }
         }
         @AfterTest

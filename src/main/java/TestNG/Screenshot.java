@@ -1,6 +1,5 @@
 package TestNG;
-
-import org.apache.commons.io.FileUtils;
+import com.google.common.io.Files;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -29,7 +28,7 @@ public class Screenshot {
 
             File pic = new File("./src/main/java/TestNG/screenshots/image.png");
 
-            FileUtils.copyFile(src, pic);
+            Files.copy(src, pic);
 
             System.out.println("Screenshot saved in file"+pic.getAbsolutePath());
         }catch (Exception e) {

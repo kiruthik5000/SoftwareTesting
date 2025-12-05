@@ -31,9 +31,9 @@ public class AbhiBus {
         driver.findElement(By.xpath("//div[@class='ctkt-logo']")).click();
         Thread.sleep(2000);
         driver.findElement(By.id("login-link")).click();
-        String acutal = driver.findElement(By.xpath("//h4")).getText();
+        String sctki = driver.findElement(By.xpath("//h4")).getText();
 
-        Assert.assertTrue(actual.contains("Login to Abhibus"));
+        Assert.assertTrue(sctki.contains("Login to Abhibus"));
 
 //        try {
 //            TakesScreenshot ts = (TakesScreenshot) driver;

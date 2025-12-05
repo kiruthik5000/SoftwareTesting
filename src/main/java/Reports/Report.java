@@ -4,16 +4,16 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,7 +61,12 @@ public class Report {
             WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
             loginButton.click();
             try {
-                TakesScreenshot ts = (TakesScreenshot) driver;
+                File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                File dest = new File("./screenshots");
+                dest.mkdir();
+                dest = new File(dest, "img.png");
+                FileUtils.copyFile(src, dest);
+
             }catch (Exception e) {
                 e.printStackTrace();
             }

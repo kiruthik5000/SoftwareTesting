@@ -14,6 +14,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import java.io.File;
@@ -93,13 +94,16 @@ public class h1 {
     Alert alert = driver.switchTo().alert();
     alert.accept();
     alert.dismiss();
-    alert.sendKeys();
+    alert.sendKeys("good");
 
     // javascriptscroll
     public void scroll(WebElement element) {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].scrollIntoView()", element);
+
+            // js click
+            js.executeScript("arguments[0].click()", element);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,6 +150,24 @@ public class h1 {
             prop.getProperty("url");
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // reload window
+    void f1() {
+        driver.navigate().refresh();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+    }
+
+    // select
+    public void select(WebElement e, String text) {
+        try {
+            Select select = new Select(e);
+            select.selectByVisibleText(text);
+
+        }catch (Exception g) {
+            g.printStackTrace();
         }
     }
 }
